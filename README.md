@@ -5,7 +5,7 @@ Este código implementa um algoritmo de Evolução Diferencial (DE) para otimiza
 
 A função de aptidão é definida pela função `evaluator`, que recebe como parâmetros um conjunto de candidatos a solução e um dicionário de argumentos contendo o número da função que deve ser avaliada. A avaliação é feita para cada candidato a solução e é adicionada em uma lista de aptidões. 
 
-As funções dos problemas analizados estão disponivei na pasta cec2017. Este codigo foi obtido no repositório:  https://github.com/tilleyd/cec2017-py.
+As funções dos problemas utilizados estão disponíveis na pasta cec2017. Este código utiliza o repositório https://github.com/tilleyd/cec2017-py para importar as funções dos problemas.
 
 A função `generator` é utilizada para gerar a população inicial, recebendo como parâmetro um gerador aleatório e um dicionário de argumentos contendo a dimensão da solução.
 
