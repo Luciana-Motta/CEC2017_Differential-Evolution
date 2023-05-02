@@ -41,28 +41,7 @@ def evaluator(candidates, kwargs):
   elif n == 9: 
     for i in range(0, len(candidates)): #Modified Schwefel's Function - Problema 9
       fitness.append(abs(n*100 - functions.f9([candidates[i]])))
-
-  ft = []
-  for i in range(len(fitness)):
-    ft.append(fitness[i][0])
-  
-  filename = 'fitness1/fitness_' + str(len(candidates[0])) + '_' + str(n) + '.csv'
-  # Verifica se o arquivo existe
-  if os.path.isfile(filename):
-      # Abre o arquivo no modo de adição
-      with open(filename, 'a', newline='') as f:
-          writer = csv.writer(f)
-          # Escreve a linha no arquivo
-          writer.writerow([ft])
-  else:
-      # Cria o arquivo CSV e escreve o cabeçalho
-      with open(filename, 'w', newline='') as f:
-          writer = csv.writer(f)
-          writer.writerow(['fitness'])
-          # Escreve a linha no arquivo
-          writer.writerow([ft])
-
-
+      
   return fitness
 
 """Geradores População Inicial"""
@@ -99,9 +78,10 @@ def differential_evolution(n_dimentions, caso):
   ea.terminator = ea.terminator = lambda population, num_generations, num_evaluations, args: terminador(population, num_generations, num_evaluations, {'max_evolutions': max_evolutions})
   ea.evaluator = ea.evaluator = lambda candidates, args: evaluator(candidates, {'function': caso})
   ea.generator = ea.generator = lambda random, args: generator(prng, {'dimention': n_dimentions})
-  offspring = ec.variators.blend_crossover = lambda random, mom, dad, args: ec.variators.blend_crossover(random, mom, dad, args= {'crossover_rate' : 1, 'blx_alpha': 0.2})
-  final_pop = ea.evolve(generator=ea.generator, evaluator=ea.evaluator, pop_size=pop_size, maximize=False, bounder=inspyred.ec.Bounder(-100, 100), max_evaluations=max_evolutions, 
-                        mutation_rate=0.5, num_crossover_points=2,num_elites=n_dimentions,variator=[offspring,  ec.variators.nonuniform_mutation])
+  offspring = ec.variators.blend_crossover = lambda random, mom, dad, args: ec.variators.blend_crossover(random, mom, dad, args= {'crossover_rate' : 1, 'blx_alpha': 0.1})
+  final_pop = ea.evolve(generator=ea.generator, evaluator=ea.evaluator, pop_size=pop_size, maximize=False, bounder=inspyred.ec.Bounder(-100, 100), 
+                        max_evaluations=max_evolutions, mutation_rate=0.5, num_crossover_points=2,num_elites=round((n_dimentions+2)/3 + 1),variator=[offspring,  
+                        ec.variators.nonuniform_mutation])
 
   best = max(final_pop)
   if best.fitness < 10**(-8):
